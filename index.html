@@ -40,10 +40,36 @@
   .soft{font-size:12px;color:#8a948e;line-height:1.9;padding-bottom:28px;margin-bottom:28px;border-bottom:1px solid rgba(255,255,255,.06)}
   .mini{display:inline-block;margin-top:8px;padding:5px 12px;border-radius:999px;border:1px solid rgba(201,169,106,.35);background:transparent;color:#b9a477;font:400 11.5px 'Noto Sans KR',sans-serif;cursor:pointer}
   footer .logo{font-family:'Noto Serif KR',serif;color:var(--gold2);font-size:15px;letter-spacing:.15em;margin-bottom:6px}
-  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--gold);color:#1a1408;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:500;opacity:0;transition:.25s;pointer-events:none}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--gold);color:#1a1408;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:500;white-space:nowrap;opacity:0;transition:.25s;pointer-events:none}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .fade{opacity:0;transform:translateY(14px);transition:.8s ease}
   .fade.in{opacity:1;transform:none}
+  .lead{font-size:14px;color:var(--mute);margin:-8px 0 20px;line-height:1.8}
+  .form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:left}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:13px;color:var(--gold);margin-bottom:6px}
+  .field label em{font-style:normal;color:var(--mute);font-size:12px;margin-left:4px}
+  .form input,.form select,.form textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0f1a17;color:var(--ink);font:400 16px 'Noto Sans KR',sans-serif;outline:none}
+  .form input:focus,.form select:focus,.form textarea:focus{border-color:var(--gold)}
+  .form textarea{resize:vertical;min-height:84px;line-height:1.6}
+  .seg{display:flex;gap:8px}
+  .seg label{flex:1;margin:0;cursor:pointer}
+  .seg input{position:absolute;opacity:0;width:1px;height:1px}
+  .seg span{display:block;text-align:center;padding:11px 0;border-radius:10px;border:1px solid rgba(255,255,255,.12);color:var(--ink);font-size:15px}
+  .seg input:checked+span{background:var(--gold);border-color:var(--gold);color:#1a1408;font-weight:500}
+  .seg input:focus-visible+span{outline:2px solid var(--gold2);outline-offset:2px}
+  .form .btn{width:100%;margin-top:4px}
+  .form .btn:disabled{opacity:.6}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .err{color:#e8a39a;font-size:13px;margin-top:10px;min-height:1px}
+  .done{background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:28px 20px;font-family:'Noto Serif KR',serif;font-size:16px;line-height:1.8}
+  .done small{display:block;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--mute);margin-top:8px}
+  .gb-list{margin-top:18px;text-align:left;display:flex;flex-direction:column;gap:10px}
+  .gb{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px}
+  .gb p{font-size:14.5px;white-space:pre-wrap;word-break:break-word}
+  .gb .meta{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--mute)}
+  .gb .meta b{color:var(--gold2);font-weight:500}
+  .gb-empty{font-size:13px;color:var(--mute);text-align:center;padding:12px 0}
 </style>
 </head>
 <body>
@@ -86,6 +112,42 @@
     <div class="btns"><a class="btn gold" href="tel:18991828">전화 문의 1899-1828</a></div>
   </section>
 
+  <section class="fade" id="rsvp-sec">
+    <h2>RSVP</h2>
+    <p class="lead">원활한 준비를 위해<br>참석 여부를 미리 알려주시면 감사하겠습니다.</p>
+    <form class="form" id="rsvp" novalidate>
+      <div class="field"><label for="r-name">성함</label><input id="r-name" name="name" maxlength="40" autocomplete="name" required></div>
+      <div class="field"><label for="r-company">소속 <em>선택</em></label><input id="r-company" name="company" maxlength="60" autocomplete="organization"></div>
+      <div class="field"><label for="r-phone">연락처 <em>선택</em></label><input id="r-phone" name="phone" type="tel" maxlength="20" autocomplete="tel" inputmode="tel"></div>
+      <div class="field"><label>참석 여부</label>
+        <div class="seg">
+          <label><input type="radio" name="attending" value="1" checked><span>참석</span></label>
+          <label><input type="radio" name="attending" value="0"><span>불참</span></label>
+        </div>
+      </div>
+      <div class="field" id="r-count-wrap"><label for="r-count">참석 인원 <em>본인 포함</em></label>
+        <select id="r-count" name="headcount"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
+      </div>
+      <div class="field"><label for="r-memo">전하실 말씀 <em>선택</em></label><textarea id="r-memo" name="memo" maxlength="300"></textarea></div>
+      <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+      <button class="btn gold" type="submit">참석 여부 보내기</button>
+      <div class="err" role="alert"></div>
+    </form>
+  </section>
+
+  <section class="fade" id="gb-sec">
+    <h2>GUESTBOOK</h2>
+    <p class="lead">새 출발을 축하하는 마음을 남겨주세요.</p>
+    <form class="form" id="gb-form" novalidate>
+      <div class="field"><label for="g-name">이름</label><input id="g-name" name="name" maxlength="20" autocomplete="name" required></div>
+      <div class="field"><label for="g-msg">축하 메시지</label><textarea id="g-msg" name="message" maxlength="300" required></textarea></div>
+      <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+      <button class="btn gold" type="submit">축하 메시지 남기기</button>
+      <div class="err" role="alert"></div>
+    </form>
+    <div class="gb-list" id="gb-list"><div class="gb-empty">불러오는 중…</div></div>
+  </section>
+
   <footer>
     <div class="soft">
       축하의 마음을 전하실 분들을 위해 배송 정보를 안내드립니다.<br>
@@ -111,6 +173,73 @@
   }));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
   document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+
+  // Supabase (공개용 키: 보안 규칙상 글 남기기와 방명록 보기만 가능)
+  const SB_URL='https://eoalaidemmzvdmtzyarg.supabase.co/rest/v1';
+  const SB_KEY='sb_publishable_qjkzP6xab7BbgItbiI24ig_6tn2wNvF';
+  const sb=(path,opt={})=>fetch(SB_URL+path,{...opt,headers:{apikey:SB_KEY,'Content-Type':'application/json',...(opt.headers||{})}});
+  const val=(f,n)=>(f.elements[n]?.value||'').trim();
+
+  async function submit(form,table,row,onDone){
+    const err=form.querySelector('.err'),btn=form.querySelector('button[type=submit]');
+    err.textContent='';
+    if(val(form,'website')){onDone();return}
+    btn.disabled=true;const label=btn.textContent;btn.textContent='보내는 중…';
+    try{
+      const r=await sb('/'+table,{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify(row)});
+      if(!r.ok)throw new Error(r.status);
+      onDone();
+    }catch(e){
+      err.textContent='전송에 실패했어요. 잠시 후 다시 시도해 주세요.';
+      btn.disabled=false;btn.textContent=label;
+    }
+  }
+
+  const rf=document.getElementById('rsvp'),cw=document.getElementById('r-count-wrap');
+  rf.addEventListener('change',()=>{cw.style.display=rf.elements.attending.value==='1'?'':'none'});
+  rf.addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=val(rf,'name');
+    if(!name){rf.querySelector('.err').textContent='성함을 입력해 주세요.';rf.elements.name.focus();return}
+    const attending=rf.elements.attending.value==='1';
+    submit(rf,'rsvp',{name,company:val(rf,'company')||null,phone:val(rf,'phone')||null,attending,
+      headcount:attending?+rf.elements.headcount.value:1,memo:val(rf,'memo')||null},()=>{
+      const d=document.createElement('div');d.className='done';
+      d.textContent=attending?`${name}님, 참석 회신 감사합니다.`:`${name}님, 회신 감사합니다.`;
+      const s=document.createElement('small');s.textContent=attending?'11월 12일에 뵙겠습니다.':'마음만으로도 큰 힘이 됩니다.';
+      d.appendChild(s);rf.replaceWith(d);
+    });
+  });
+
+  const gf=document.getElementById('gb-form'),gl=document.getElementById('gb-list');
+  const fmt=s=>{const d=new Date(s);return `${d.getMonth()+1}.${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`};
+  function render(rows){
+    gl.replaceChildren();
+    if(!rows.length){const p=document.createElement('div');p.className='gb-empty';p.textContent='첫 번째 축하 메시지를 남겨주세요.';gl.appendChild(p);return}
+    rows.forEach(r=>{
+      const c=document.createElement('div');c.className='gb';
+      const p=document.createElement('p');p.textContent=r.message;
+      const m=document.createElement('div');m.className='meta';
+      const b=document.createElement('b');b.textContent=r.name;
+      const t=document.createElement('span');t.textContent=fmt(r.created_at);
+      m.append(b,t);c.append(p,m);gl.appendChild(c);
+    });
+  }
+  async function loadGb(){
+    try{const r=await sb('/guestbook?select=name,message,created_at&order=created_at.desc&limit=100');
+      if(!r.ok)throw 0;render(await r.json())}
+    catch(e){gl.innerHTML='<div class="gb-empty">메시지를 불러오지 못했어요.</div>'}
+  }
+  gf.addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=val(gf,'name'),message=val(gf,'message');
+    if(!name||!message){gf.querySelector('.err').textContent='이름과 메시지를 모두 입력해 주세요.';return}
+    submit(gf,'guestbook',{name,message},()=>{
+      gf.reset();const b=gf.querySelector('button[type=submit]');b.disabled=false;b.textContent='축하 메시지 남기기';
+      toast('축하 메시지가 등록되었어요');loadGb();
+    });
+  });
+  loadGb();
 </script>
 </body>
 </html>
